@@ -1,0 +1,137 @@
+<mvc:View controllerName="billingadmin.controller.admin"
+  displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:tnt="sap.tnt"
+>
+    <tnt:ToolPage id="toolPage">
+        <tnt:sideContent>
+            <tnt:SideNavigation id="sideNavigation" selectedKey="home" expanded="true">
+                <tnt:NavigationList id="navlist1">
+                    <tnt:NavigationListItem
+                        id="homenavlist"
+                        text="Home"
+                        key="home"
+                        icon="sap-icon://home"
+                        press="onItemPress"
+                    />
+                    <tnt:NavigationListItem
+                        id="buildingnavlist"
+                        text="Building"
+                        key="building"
+                        icon="sap-icon://building"
+                        press="onItemPress"
+                    />
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <uxap:ObjectPageLayout id="pagelayout" showTitleInHeaderContent="true" upperCaseAnchorBar="false">
+                <uxap:headerTitle>
+                    <uxap:ObjectPageDynamicHeaderTitle>
+                        <uxap:expandedHeading>
+                            <Title text="Admin Dashboard" />
+                        </uxap:expandedHeading>
+                        <uxap:snappedHeading>
+                            <Title text="Admin Dashboard" />
+                        </uxap:snappedHeading>
+                    </uxap:ObjectPageDynamicHeaderTitle>
+                </uxap:headerTitle>
+
+                <!-- ===== Page Sections ===== -->
+                <uxap:sections>
+                    <!-- ===== Overview Section ===== -->
+                    <uxap:ObjectPageSection id="homeSection" title="Overview">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="tilesSubSection" title="Key Metrics">
+                                <VBox class="sapUiSmallMargin sapUiMediumMarginBeginEnd">
+
+                                    <!-- Refresh Button -->
+                                    <HBox justifyContent="End">
+                                        <Button
+                                            text="Refresh Orders"
+                                            type="Emphasized"
+                                            press=".onRefreshOrders"
+                                        />
+                                    </HBox>
+
+                                    <!-- Metrics Tiles -->
+                                    <HBox
+                                        justifyContent="SpaceAround"
+                                        fitContainer="true"
+                                        wrap="Wrap"
+                                        class="sapUiSmallMarginTop"
+                                    >
+                                        <GenericTile
+                                            header="Pending Orders"
+                                            subheader="Awaiting approval"
+                                        >
+                                            <TileContent unit="Count">
+                                                <NumericContent
+                                                    value="{viewModel>/Counts/Pending}"
+                                                />
+                                            </TileContent>
+                                        </GenericTile>
+
+                                        <GenericTile
+                                            header="Approved"
+                                            subheader="Approved orders"
+                                        >
+                                            <TileContent unit="Count">
+                                                <NumericContent
+                                                    value="{viewModel>/Counts/Approved}"
+                                                />
+                                            </TileContent>
+                                        </GenericTile>
+
+                                        <GenericTile
+                                            header="Rejected"
+                                            subheader="Rejected orders"
+                                        >
+                                            <TileContent unit="Count">
+                                                <NumericContent
+                                                    value="{viewModel>/Counts/Rejected}"
+                                                />
+                                            </TileContent>
+                                        </GenericTile>
+                                    </HBox>
+
+                                    <!-- Pending Orders Table -->
+                                    <VBox class="sapUiSmallMarginTop">
+                                        <Table id="pendingOrdersTable" items="{viewModel>/PendingOrders}">
+                                            <columns>
+                                                <Column><Text text="Model Code" /></Column>
+                                                <Column><Text text="Description" /></Column>
+                                                <Column><Text text="Quantity" /></Column>
+                                                <Column><Text text="Fund Required" /></Column>
+                                                <Column><Text text="Status" /></Column>
+                                                <Column />
+                                                <Column />
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <Text text="{viewModel>modelCode}" />
+                                                    <Text text="{viewModel>modelDescription}" />
+                                                    <Text text="{viewModel>totalQuantity}" />
+                                                    <Text text="{viewModel>fundRequired}" />
+                                                    <ObjectStatus
+                                                        text="{path: 'viewModel>status', formatter: '.formatStatusText'}"
+                                                        state="{path: 'viewModel>status', formatter: '.formatStatusState'}"
+                                                    />
+                                                    <Button icon="sap-icon://accept" type="Accept" press=".onApprove" />
+                                                    <Button icon="sap-icon://decline" type="Reject" press=".onReject" />
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </VBox>
+                                </VBox>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                </uxap:sections>
+            </uxap:ObjectPageLayout>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

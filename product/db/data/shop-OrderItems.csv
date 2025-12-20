@@ -1,0 +1,4 @@
+parent_ID,itemNo,product_ID,quantity,amount
+o1-111,1,c1-111,1,1400
+o1-111,2,c1-222,2,50
+o1-222,1,c1-333,1,150

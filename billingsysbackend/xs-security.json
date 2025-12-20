@@ -1,0 +1,39 @@
+{
+  "tenant-mode": "dedicated",
+  "description": "Security configuration for Billing System CAP application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Access to PendingOrders and order approval actions"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "AdminRoleTemplateForPendingOrder",
+      "description": "Role template for admin users with PendingOrders access",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "Billing_Admins",
+      "description": "Role collection for users managing Pending Orders",
+      "role-template-references": [
+        "$XSAPPNAME.AdminRoleTemplateForPendingOrder"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "credential-types": [
+      "binding-secret",
+      "x509"
+    ],
+    "redirect-uris": [
+      "https://**.cfapps.us10-001.hana.ondemand.com/login/callback*",
+      "http://localhost:5000/**"
+    ]
+  },
+  "attributes": []
+}

@@ -1,0 +1,4 @@
+ID,name,category,price,stock,createdAt
+c1-111,Laptop,Electronics,1400,20,2024-01-10
+c1-222,Mouse,Electronics,25,200,2024-02-12
+c1-333,Desk,Furniture,150,50,2024-03-01

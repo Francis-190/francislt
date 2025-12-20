@@ -1,0 +1,277 @@
+/* === General Page Styling === */
+.mainPage,
+.wizardContainer {
+  background-color: #f4f6f8;
+  padding: 15px;
+  font-family: "72", "72 Regular", Arial, sans-serif;
+}
+ 
+/* === Wizard Steps === */
+.wizardStep {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+ 
+/* === Panels === */
+.tablePanel {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 15px;
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+.tablePanel:hover {
+  transform: translateY(-2px);
+}
+ 
+/* === Form Labels and Inputs === */
+#dealerForm .sapMLabel {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #34495e;
+}
+#dealerForm .sapMText {
+  font-size: 0.875rem;
+  color: #2c3e50;
+}
+ 
+/* === Input Field Coloring === */
+.DealerName {
+  font-weight: bold;
+  color: #1e88e5;
+}
+.fundavailable {
+  font-weight: bold;
+  color: #27ae60;
+}
+.limit {
+  font-weight: bold;
+  color: #e67e22;
+}
+.totalQty {
+  font-weight: bold;
+  color: #8e44ad;
+}
+ 
+/* === Buttons === */
+.actionButton {
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #1e88e5;
+  color: white;
+  margin-top: 5px;
+}
+.actionButton:hover {
+  background-color: #1565c0;
+}
+ 
+/* === ComboBox Styling === */
+.comboBoxStyle {
+  min-width: 250px;
+}
+ 
+/* === SAPUI5 Table Styling === */
+.allocationTable {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  overflow: hidden;
+}
+ 
+/* Table Headers */
+.boldHeaderModel {
+  font-weight: bold !important;
+  text-align: center !important;
+ 
+}
+ 
+ 
+ 
+ 
+ 
+/* Multi-label colored headers (Vector Flow) */
+.fstHeader,
+.blackHeader,
+.redHeader,
+.yellowHeader,
+.greenHeader,
+.allocationHeader {
+  font-weight: bold !important;
+  text-align: center !important;
+  color: white !important;
+}
+.fstHeader { color: #1976d2 !important;
+font-weight: 800 !important;}
+.blackHeader { color: #000000 !important; }
+.redHeader { color: #d32f2f !important; }
+.yellowHeader { color: #fbc02d !important; }
+.greenHeader {color: #388e3c !important; }
+.allocationHeader { color: #1976d2 !important; }
+ 
+/* Table Cells */
+.stockValue { font-weight: 600; color: #34495e; }
+.DealerName { color: #1e88e5; font-weight: bold; }
+.fundavailable { color: #27ae60; font-weight: bold; }
+.limit { color: #e67e22; font-weight: bold; }
+.totalQty { color: #8e44ad; font-weight: bold; }
+ 
+/* Colored Vector Flow Cells (optional if used programmatically) */
+.fstCell { background-color: #e3f2fd; text-align: center; font-weight: bold; }
+.blackCell { background-color: #e0e0e0; text-align: center; font-weight: bold; color: black; }
+.redCell { background-color: #ffcdd2; text-align: center; font-weight: bold; color: black; }
+.yellowCell { background-color: #fff9c4; text-align: center; font-weight: bold; }
+.greenCell { background-color: #c8e6c9; text-align: center; font-weight: bold; }
+.allocationCell { background-color: #bbdefb; text-align: center; font-weight: bold; }
+ 
+/* === Row Backgrounds === */
+.allocationTable .sapUiTableRow.sapUiTableRowEven {
+  background-color: #fcfcfc;
+}
+.allocationTable .sapUiTableRow.sapUiTableRowOdd {
+  background-color: #f9f9f9;
+}
+.allocationTable .sapUiTableRowHover {
+  background-color: #e0f7fa !important;
+}
+ 
+/* === Total Row Highlight (Full Row + Cells) === */
+.sapUiTableRow.totalRowHighlight,
+.sapUiTableCell .totalRowHighlight {
+  background-color: #fff3cd !important; /* Light yellow */
+  font-weight: bold !important;
+  color: #000 !important;
+}
+ 
+/* === Total Row Text Colors === */
+.totalFund { color: #d35400; font-weight: bold; }
+.totalOrder { color: #1e8449; font-weight: bold; }
+ 
+/* === Links === */
+.modelLink {
+  color: #1e88e5;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.modelLink:hover {
+  color: #1565c0;
+}
+ 
+/* === Miscellaneous === */
+.fundRequiredText {
+  font-weight: bold;
+  color: #d32f2f;
+}
+ 
+/* === Hidden / Visible Sections === */
+.hiddenTable { display: none; }
+.visibleTable { display: block; }
+ 
+/* === Responsive Adjustments === */
+@media (max-width: 1024px) {
+  .tablePanel,
+  .allocationTable,
+  .wizardContainer {
+    width: 100% !important;
+    font-size: 0.85rem;
+  }
+}
+ 
+.totalHeaderItemtotalstock{
+ 
+  padding-left: 400px;
+}
+ 
+.totalValueText{
+  font-weight: bold;
+  padding-left: 4px;
+}
+ 
+.textcalass{
+  font-weight: bold;
+  color: rgb(1, 1, 68);
+  padding-left: 5px;
+}
+ 
+.totalValueText1{
+  font-weight: bold;
+  color: rgb(65, 65, 241);;
+ padding-left: 4px;
+}
+.totalValueText2{
+  font-weight: bold;
+  color: rgb(65, 65, 241);
+  padding-left: 4px;
+ 
+}
+.totalValueText3{
+  font-weight: bold;
+  color: rgb(173, 6, 206);
+  padding-left: 4px;
+ 
+}
+.totalValueText4{
+  font-weight: bold;
+  color: orange;
+   padding-left: 4px;
+ 
+}
+.totalValueText5{
+  font-weight: bold;
+  color: rgb(15, 121, 1);
+   padding-left: 4px;
+ 
+}
+ 
+ 
+.fstText{
+  font-weight: bold;
+}
+ 
+.removeback {
+    background-color: transparent !important;  
+    border: none !important;                  
+    box-shadow: none !important;              
+}
+
+.VectorLableHeader{
+  padding-top: 4px;
+  font-weight: bolder;
+  color:#000000;
+  padding-left: 3px;
+}
+
+.VectorLableText{
+  padding-top: 4px;
+  font-weight: bolder;
+color: rgb(2, 60, 221);
+}
+
+.VectorLableText2{
+  padding-top: 4px;
+  font-weight: bolder;
+color: rgb(28, 3, 252);
+}
+
+.fstText{
+  font-weight: bold;
+}
+
+.VectorLableHeader{
+  padding-top: 4px;
+  font-weight: bolder;
+  color:#000000;
+  padding-left: 3px;
+}
+
+.VectorLableText{
+  padding-top: 4px;
+  font-weight: bolder;
+color: rgb(2, 60, 221);
+}
+
+.VectorLableText2{
+  padding-top: 4px;
+  font-weight: bolder;
+color: rgb(28, 3, 252);
+}

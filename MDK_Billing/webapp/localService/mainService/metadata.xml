@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0"
+xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+</edmx:Reference>
+<edmx:DataServices>
+    <Schema Namespace="employeeSrv.dashboard.employeeDetails"
+    xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <Annotation Term="Core.Links">
+        <Collection>
+            <Record>
+                <PropertyValue Property="rel" String="author"/>
+                <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+            </Record>
+        </Collection>
+    </Annotation>
+    <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Employee" EntityType="employeeSrv.dashboard.employeeDetails.Employee">
+            <NavigationPropertyBinding Path="Department" Target="Department"/>
+            <NavigationPropertyBinding Path="Manager" Target="Employee"/>
+            <NavigationPropertyBinding Path="skills" Target="Skills"/>
+            <NavigationPropertyBinding Path="performances" Target="Performances"/>
+            <NavigationPropertyBinding Path="certifications" Target="Certifications"/>
+            <NavigationPropertyBinding Path="benches" Target="BenchDetails"/>
+            <NavigationPropertyBinding Path="assignments" Target="ProjectAssignments"/>
+        </EntitySet>
+        <EntitySet Name="Department" EntityType="employeeSrv.dashboard.employeeDetails.Department">
+            <NavigationPropertyBinding Path="Manager" Target="Employee"/>
+        </EntitySet>
+        <EntitySet Name="DepartmentAnalytics" EntityType="employeeSrv.dashboard.employeeDetails.DepartmentAnalytics"/>
+        <EntitySet Name="Skills" EntityType="employeeSrv.dashboard.employeeDetails.Skills">
+            <NavigationPropertyBinding Path="employee" Target="Employee"/>
+        </EntitySet>
+        <EntitySet Name="ProjectAssignments" EntityType="employeeSrv.dashboard.employeeDetails.ProjectAssignments">
+            <NavigationPropertyBinding Path="employee" Target="Employee"/>
+            <NavigationPropertyBinding Path="Project" Target="Projects"/>
+        </EntitySet>
+        <EntitySet Name="Projects" EntityType="employeeSrv.dashboard.employeeDetails.Projects"/>
+        <EntitySet Name="BenchDetails" EntityType="employeeSrv.dashboard.employeeDetails.BenchDetails">
+            <NavigationPropertyBinding Path="employee" Target="Employee"/>
+        </EntitySet>
+        <EntitySet Name="Performances" EntityType="employeeSrv.dashboard.employeeDetails.Performances">
+            <NavigationPropertyBinding Path="employee" Target="Employee"/>
+            <NavigationPropertyBinding Path="Project" Target="Projects"/>
+            <NavigationPropertyBinding Path="Evaluator" Target="Employee"/>
+        </EntitySet>
+        <EntitySet Name="Certifications" EntityType="employeeSrv.dashboard.employeeDetails.Certifications">
+            <NavigationPropertyBinding Path="employee" Target="Employee"/>
+        </EntitySet>
+        <FunctionImport Name="mapDepartment" Function="employeeSrv.dashboard.employeeDetails.mapDepartment" EntitySet="Department"/>
+        <FunctionImport Name="mapEmployee" Function="employeeSrv.dashboard.employeeDetails.mapEmployee" EntitySet="Employee"/>
+    </EntityContainer>
+    <EntityType Name="Employee">
+        <Key>
+            <PropertyRef Name="EmployeeID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="EmployeeID" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="FirstName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="LastName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="FullName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="Email" Type="Edm.String" MaxLength="120"/>
+        <Property Name="phoneNumber" Type="Edm.String" MaxLength="100"/>
+        <Property Name="workLocation" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="Department" Type="employeeSrv.dashboard.employeeDetails.Department">
+            <ReferentialConstraint Property="Department_DepartmentID" ReferencedProperty="DepartmentID"/>
+        </NavigationProperty>
+        <Property Name="Department_DepartmentID" Type="Edm.String"/>
+        <Property Name="Role" Type="Edm.String" MaxLength="100"/>
+        <Property Name="ImageURL" Type="Edm.String" MaxLength="255"/>
+        <Property Name="JoiningDate" Type="Edm.Date"/>
+        <Property Name="CurrentStatus" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="Manager" Type="employeeSrv.dashboard.employeeDetails.Employee">
+            <ReferentialConstraint Property="Manager_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="Manager_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="Location" Type="Edm.String" MaxLength="100"/>
+        <Property Name="IsOnProject" Type="Edm.Boolean"/>
+        <NavigationProperty Name="skills" Type="Collection(employeeSrv.dashboard.employeeDetails.Skills)" Partner="employee">
+            <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="performances" Type="Collection(employeeSrv.dashboard.employeeDetails.Performances)" Partner="employee">
+            <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="certifications" Type="Collection(employeeSrv.dashboard.employeeDetails.Certifications)" Partner="employee">
+            <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="benches" Type="Collection(employeeSrv.dashboard.employeeDetails.BenchDetails)" Partner="employee">
+            <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assignments" Type="Collection(employeeSrv.dashboard.employeeDetails.ProjectAssignments)" Partner="employee">
+            <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+    </EntityType>
+    <EntityType Name="Department">
+        <Key>
+            <PropertyRef Name="DepartmentID"/>
+        </Key>
+        <Property Name="DepartmentID" Type="Edm.String" Nullable="false"/>
+        <Property Name="DepartmentName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="Description" Type="Edm.String" MaxLength="200"/>
+        <NavigationProperty Name="Manager" Type="employeeSrv.dashboard.employeeDetails.Employee">
+            <ReferentialConstraint Property="Manager_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="Manager_EmployeeID" Type="Edm.String" MaxLength="10"/>
+    </EntityType>
+    <EntityType Name="DepartmentAnalytics">
+        <Key>
+            <PropertyRef Name="DepartmentID"/>
+        </Key>
+        <Property Name="DepartmentID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="DepartmentName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="EmployeeCount" Type="Edm.Int32"/>
+    </EntityType>
+    <EntityType Name="Skills">
+        <Key>
+            <PropertyRef Name="SkillID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="SkillID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="employee" Type="employeeSrv.dashboard.employeeDetails.Employee" Partner="skills">
+            <ReferentialConstraint Property="employee_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="employee_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="SkillName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="SkillLevel" Type="Edm.String" MaxLength="30"/>
+        <Property Name="LastUpdated" Type="Edm.Date"/>
+        <Property Name="CertificationStatus" Type="Edm.String" MaxLength="30"/>
+        <Property Name="RecommendedUpgrade" Type="Edm.String" MaxLength="100"/>
+    </EntityType>
+    <EntityType Name="ProjectAssignments">
+        <Key>
+            <PropertyRef Name="AssignmentID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="AssignmentID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="employee" Type="employeeSrv.dashboard.employeeDetails.Employee" Partner="assignments">
+            <ReferentialConstraint Property="employee_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="employee_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <NavigationProperty Name="Project" Type="employeeSrv.dashboard.employeeDetails.Projects">
+            <ReferentialConstraint Property="Project_ProjectID" ReferencedProperty="ProjectID"/>
+        </NavigationProperty>
+        <Property Name="Project_ProjectID" Type="Edm.String"/>
+        <Property Name="StartDate" Type="Edm.Date"/>
+        <Property Name="EndDate" Type="Edm.Date"/>
+        <Property Name="Quarter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="UtilizationPercent" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="Status" Type="Edm.String" MaxLength="50"/>
+    </EntityType>
+    <EntityType Name="Projects">
+        <Key>
+            <PropertyRef Name="ProjectID"/>
+        </Key>
+        <Property Name="ProjectID" Type="Edm.String" Nullable="false"/>
+        <Property Name="ProjectName" Type="Edm.String" MaxLength="120"/>
+        <Property Name="ClientName" Type="Edm.String" MaxLength="120"/>
+        <Property Name="RevenueGenerated" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="StartDate" Type="Edm.Date"/>
+        <Property Name="EndDate" Type="Edm.Date"/>
+    </EntityType>
+    <EntityType Name="BenchDetails">
+        <Key>
+            <PropertyRef Name="BenchID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="BenchID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="employee" Type="employeeSrv.dashboard.employeeDetails.Employee" Partner="benches">
+            <ReferentialConstraint Property="employee_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="employee_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="StartDate" Type="Edm.Date"/>
+        <Property Name="EndDate" Type="Edm.Date"/>
+        <Property Name="TotalCost" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="Quarter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="Remarks" Type="Edm.String" MaxLength="255"/>
+    </EntityType>
+    <EntityType Name="Performances">
+        <Key>
+            <PropertyRef Name="PerformanceID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="PerformanceID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="employee" Type="employeeSrv.dashboard.employeeDetails.Employee" Partner="performances">
+            <ReferentialConstraint Property="employee_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="employee_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="Quarter" Type="Edm.String" MaxLength="10"/>
+        <NavigationProperty Name="Project" Type="employeeSrv.dashboard.employeeDetails.Projects">
+            <ReferentialConstraint Property="Project_ProjectID" ReferencedProperty="ProjectID"/>
+        </NavigationProperty>
+        <Property Name="Project_ProjectID" Type="Edm.String"/>
+        <Property Name="Score" Type="Edm.Decimal" Precision="4" Scale="2"/>
+        <Property Name="Feedback" Type="Edm.String" MaxLength="500"/>
+        <NavigationProperty Name="Evaluator" Type="employeeSrv.dashboard.employeeDetails.Employee">
+            <ReferentialConstraint Property="Evaluator_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="Evaluator_EmployeeID" Type="Edm.String" MaxLength="10"/>
+    </EntityType>
+    <EntityType Name="Certifications">
+        <Key>
+            <PropertyRef Name="CertID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="CertID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="employee" Type="employeeSrv.dashboard.employeeDetails.Employee" Partner="certifications">
+            <ReferentialConstraint Property="employee_EmployeeID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <Property Name="employee_EmployeeID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="CertificateName" Type="Edm.String" MaxLength="200"/>
+        <Property Name="Provider" Type="Edm.String" MaxLength="100"/>
+        <Property Name="CompletionDate" Type="Edm.String"/>
+        <Property Name="ValidTill" Type="Edm.String"/>
+        <Property Name="CertificationLevel" Type="Edm.String" MaxLength="50"/>
+        <Property Name="CertificationsFile" Type="Edm.Binary"/>
+    </EntityType>
+    <Function Name="mapDepartment" IsBound="false" IsComposable="false">
+        <ReturnType Type="employeeSrv.dashboard.employeeDetails.Department"/>
+    </Function>
+    <Function Name="mapEmployee" IsBound="false" IsComposable="false">
+        <ReturnType Type="employeeSrv.dashboard.employeeDetails.Employee"/>
+    </Function>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Employee/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Employee/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Employee/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Employee/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.DepartmentAnalytics/DepartmentID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.DepartmentAnalytics/EmployeeCount">
+        <Annotation Term="Core.Computed" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Skills/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Skills/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Skills/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Skills/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Skills/SkillID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.ProjectAssignments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.ProjectAssignments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.ProjectAssignments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.ProjectAssignments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.ProjectAssignments/AssignmentID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.BenchDetails/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.BenchDetails/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.BenchDetails/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.BenchDetails/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.BenchDetails/BenchID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Performances/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Performances/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Performances/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Performances/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Performances/PerformanceID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Certifications/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Created On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Certifications/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Created By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Certifications/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Changed On"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Certifications/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Common.Label" String="Changed By"/>
+    </Annotations>
+    <Annotations Target="employeeSrv.dashboard.employeeDetails.Certifications/CertID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+    </Annotations>
+</Schema>
+</edmx:DataServices>
+</edmx:Edmx>
