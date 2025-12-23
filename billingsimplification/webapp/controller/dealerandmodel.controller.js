@@ -1,3 +1,5 @@
+// const approval = require('./approval')
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/format/NumberFormat",
@@ -11,12 +13,16 @@ sap.ui.define([
        onInit: function () {
             const oViewModel = new sap.ui.model.json.JSONModel({});
             this.getView().setModel(oViewModel, "viewModel");
+
         },
  
         onModelDescPress: async function (oEvent) {
             const oView = this.getView();
             const sDealerId = oView.byId("idDealerCombo").getSelectedKey();
             const oVBox = oView.byId("vectorFlowBox");
+
+           
+            
  
             if (!sDealerId) {
                 sap.m.MessageToast.show("Please select a Dealer.");
@@ -26,6 +32,10 @@ sap.ui.define([
             const oLink = oEvent.getSource();
             const oContext = oLink.getBindingContext("viewModel");
             const sModelCode = oContext.getProperty("modelCode");
+
+            //  var aoorvalcall = approval.startOrderApprovalProcess(sModelCode);
+
+            // console.log(aoorvalcall);
  
             if (this._lastModelCode === sModelCode) {
                 oVBox.setVisible(!oVBox.getVisible());

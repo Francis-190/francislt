@@ -1,0 +1,20 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" controllerName="vechilepricingui.controller.vechileoverview"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <layout:VerticalLayout >
+    
+    <MultiComboBox selectionChange="handleSelectionChange"
+			selectionFinish="handleSelectionFinish"
+			width="350px"
+			items="{
+				path: '/BikePricing'
+			}">
+
+            <core:Item key="{ID}" text="{= ${regionCode} + ' - ' + ${state} }"></core:Item>
+            
+            </MultiComboBox>
+
+            
+    
+    </layout:VerticalLayout>
+</mvc:View>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="csvtohana.srv.BikePricingService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="BikePricing" EntityType="csvtohana.srv.BikePricingService.BikePricing"/>
+                <ActionImport Name="uploadExcel" Action="csvtohana.srv.BikePricingService.uploadExcel"/>
+                <ActionImport Name="sendToBPA" Action="csvtohana.srv.BikePricingService.sendToBPA"/>
+            </EntityContainer>
+            <EntityType Name="BikePricing">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="categoryAndRegion" Type="Edm.String" MaxLength="100"/>
+                <Property Name="categoryCodeAndRegion" Type="Edm.String" MaxLength="100"/>
+                <Property Name="mtsModel" Type="Edm.String" MaxLength="50"/>
+                <Property Name="modelDescription" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cc" Type="Edm.Int32"/>
+                <Property Name="regionCode" Type="Edm.String" MaxLength="20"/>
+                <Property Name="state" Type="Edm.String" MaxLength="50"/>
+                <Property Name="basis" Type="Edm.String" MaxLength="50"/>
+                <Property Name="dealerMarginPercent" Type="Edm.Decimal" Precision="5" Scale="2"/>
+                <Property Name="mtsNSP" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="incrementalNSP" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="helmetNSP" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="transportationCost" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="dealerCost" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="otherExpenses" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="bikeMargin" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="incrementalMargin" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="dealerMargin" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="helmetMargin" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="totalDealerMargin" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="ndp" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="basicPrice" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="gstAmount" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="keralaCess" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="exShowroomPrice" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="exceptionRef" Type="Edm.String" MaxLength="50"/>
+                <Property Name="rtoPercent" Type="Edm.Decimal" Precision="5" Scale="2"/>
+                <Property Name="rtoAmount" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="rtoWithBill" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="insuranceBelow350" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="insuranceAbove350" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="insuranceAmount" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="tpaPa" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="insuranceGST" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="totalInsurance" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="onRoadPrice" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="exShowroom" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="diffAmount" Type="Edm.Decimal" Precision="13" Scale="2"/>
+            </EntityType>
+            <ComplexType Name="BpaPricingContext">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="modelCode" Type="Edm.String"/>
+                <Property Name="modelDescription" Type="Edm.String"/>
+                <Property Name="state" Type="Edm.String"/>
+                <Property Name="exShowroomPrice" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="onRoadPrice" Type="Edm.Decimal" Precision="13" Scale="2"/>
+            </ComplexType>
+            <Action Name="uploadExcel" IsBound="false">
+                <Parameter Name="file" Type="Edm.Binary"/>
+                <Parameter Name="fileName" Type="Edm.String"/>
+                <ReturnType Type="Edm.String"/>
+            </Action>
+            <Action Name="sendToBPA" IsBound="false">
+                <Parameter Name="data" Type="csvtohana.srv.BikePricingService.BpaPricingContext"/>
+                <ReturnType Type="Edm.String"/>
+            </Action>
+            <Annotations Target="csvtohana.srv.BikePricingService.BikePricing/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

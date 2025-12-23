@@ -1,5 +1,5 @@
 _schema-version: 3.3.0
-ID: billingsysbackend
+ID: csvtohana
 version: 1.0.0
 description: "A simple CAP project."
 parameters:
@@ -11,7 +11,7 @@ build-parameters:
         - npm ci
         - npx cds build --production
 modules:
-  - name: billingsysbackend-srv
+  - name: csvtohana-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -24,18 +24,18 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: billingsysbackend-db
+      - name: csvtohana-db
 
-  - name: billingsysbackend-db-deployer
+  - name: csvtohana-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: billingsysbackend-db
+      - name: csvtohana-db
 
 resources:
-  - name: billingsysbackend-db
+  - name: csvtohana-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
